@@ -102,18 +102,12 @@ async function getEpisodesOfShow(id) {
     `http://api.tvmaze.com/shows/${id}/episodes`
   );
 
-  for (let episode of response.data) {
-    let newObj = {}
-    newObj.id = episode.id
-    newObj.name = episode.name
-    newObj.summary = episode.season
-    newObj.number = episode.number
-    episodesOfShow.push(newObj)
+  for (let { id, name, season, number } of response.data) {
+    episodesOfShow.push({id, name, season, number})
   }
 
   return episodesOfShow
 }
-/** Write a clear docstring for this function... */
 
 /** 
  * Given an array of episode objects with {id, name, season, number}, add list items to list
@@ -126,7 +120,11 @@ function populateEpisodes(episodes) {
 
   for (let episode of episodes) {
     const $episode = $(
-      `<li> ID: ${episode.id}, Name: ${episode.name}, Summary: ${episode.summary}, Number: ${episode.number}, </li>`
+      `<li> ID: ${episode.id},
+       Name: ${episode.name}, 
+       Summary: ${episode.summary}, 
+       Number: ${episode.number}, 
+       </li>`
     );
     $episodesList.append($episode);
   }
